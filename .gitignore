@@ -231,3 +231,8 @@ FakesAssemblies/
 # go.sum of examples
 _examples/**/go.sum
 
+# bazel specific
+bazel-bin
+bazel-out
+bazel-protoactor-go
+bazel-testlogs
