@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "scheduler",
+    srcs = ["timer.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/scheduler",
+    visibility = ["//visibility:public"],
+    deps = ["//actor"],
+)
+
+go_test(
+    name = "scheduler_test",
+    srcs = [
+        "timer_example_test.go",
+        "timer_test.go",
+    ],
+    embed = [":scheduler"],
+    deps = [
+        "//actor",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

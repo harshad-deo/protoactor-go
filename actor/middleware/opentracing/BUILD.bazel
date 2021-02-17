@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "opentracing",
+    srcs = [
+        "activespan.go",
+        "envelope.go",
+        "logger.go",
+        "middlewarepropagation.go",
+        "parentspan.go",
+        "receivermiddleware.go",
+        "sendermiddleware.go",
+        "spawnmiddleware.go",
+        "stoppingspan.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/actor/middleware/opentracing",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//actor",
+        "//actor/middleware/propagator",
+        "//log",
+        "@com_github_opentracing_opentracing_go//:go_default_library",
+        "@com_github_opentracing_opentracing_go//log:go_default_library",
+    ],
+)
+
+go_test(
+    name = "opentracing_test",
+    srcs = ["tracing_test.go"],
+    embed = [":opentracing"],
+)

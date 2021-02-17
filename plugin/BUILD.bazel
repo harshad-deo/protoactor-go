@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "plugin",
+    srcs = [
+        "passivation.go",
+        "plugin.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/plugin",
+    visibility = ["//visibility:public"],
+    deps = ["//actor"],
+)
+
+go_test(
+    name = "plugin_test",
+    srcs = ["passivation_test.go"],
+    embed = [":plugin"],
+    deps = [
+        "//actor",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

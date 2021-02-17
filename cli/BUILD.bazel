@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "cli_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/cli",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//actor",
+        "//remote",
+        "@com_github_chzyer_readline//:go_default_library",
+        "@com_github_gogo_protobuf//proto:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "cli",
+    embed = [":cli_lib"],
+    visibility = ["//visibility:public"],
+)

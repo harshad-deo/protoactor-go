@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "eventstream",
+    srcs = [
+        "doc.go",
+        "eventstream.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/eventstream",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "eventstream_test",
+    srcs = [
+        "eventstream_example_subscribe_test.go",
+        "eventstream_test.go",
+    ],
+    embed = [":eventstream"],
+    deps = ["@com_github_stretchr_testify//assert:go_default_library"],
+)

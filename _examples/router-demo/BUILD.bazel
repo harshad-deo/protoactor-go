@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "router-demo_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/_examples/router-demo",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//actor",
+        "//router",
+        "@com_github_asynkronit_goconsole//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "router-demo",
+    embed = [":router-demo_lib"],
+    visibility = ["//visibility:public"],
+)

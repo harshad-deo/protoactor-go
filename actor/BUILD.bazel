@@ -1,0 +1,100 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+
+proto_library(
+    name = "actor_proto",
+    srcs = ["protos.proto"],
+    visibility = ["//visibility:public"],
+    deps = ["//github.com/gogo/protobuf/gogoproto:gogoproto_proto"],
+)
+
+go_proto_library(
+    name = "actor_go_proto",
+    importpath = "github.com/AsynkronIT/protoactor-go/actor",
+    proto = ":actor_proto",
+    visibility = ["//visibility:public"],
+    deps = ["//github.com/gogo/protobuf/gogoproto:gogo_proto"],
+)
+
+go_library(
+    name = "actor",
+    srcs = [
+        "actor.go",
+        "actor_context.go",
+        "actor_process.go",
+        "actor_system.go",
+        "behavior.go",
+        "child_restart_stats.go",
+        "context.go",
+        "deadletter.go",
+        "directive.go",
+        "directive_string.go",
+        "doc.go",
+        "future.go",
+        "guardian.go",
+        "log.go",
+        "message_envelope.go",
+        "messages.go",
+        "middleware_chain.go",
+        "pid.go",
+        "pidset.go",
+        "process.go",
+        "process_registry.go",
+        "props.go",
+        "root_context.go",
+        "strategy_all_for_one.go",
+        "strategy_exponential_backoff.go",
+        "strategy_one_for_one.go",
+        "strategy_restarting.go",
+        "supervision.go",
+        "supervision_event.go",
+    ],
+    embed = [":actor_go_proto"],
+    importpath = "github.com/AsynkronIT/protoactor-go/actor",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//eventstream",
+        "//extensions",
+        "//log",
+        "//mailbox",
+        "@com_github_emirpasic_gods//stacks/linkedliststack:go_default_library",
+        "@com_github_orcaman_concurrent_map//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "actor_test",
+    srcs = [
+        "actor_context_test.go",
+        "actor_example_test.go",
+        "behavior_test.go",
+        "behaviorlogic_test.go",
+        "child_test.go",
+        "common_test.go",
+        "context_example_setReceiveTimeout_test.go",
+        "deadletter_test.go",
+        "future_example_test.go",
+        "future_test.go",
+        "interaction_test.go",
+        "lifecycle_test.go",
+        "message_envelope_test.go",
+        "middleware_chain_test.go",
+        "pid_test.go",
+        "pidset_test.go",
+        "process_registry_test.go",
+        "spawn_example_test.go",
+        "spawn_named_example_test.go",
+        "spawn_test.go",
+        "strategy_exponential_backoff_test.go",
+        "strategy_one_for_one_test.go",
+        "supervision_event_test.go",
+        "supervision_test.go",
+    ],
+    embed = [":actor"],
+    deps = [
+        "//log",
+        "@com_github_stretchr_testify//assert:go_default_library",
+        "@com_github_stretchr_testify//mock:go_default_library",
+    ],
+)

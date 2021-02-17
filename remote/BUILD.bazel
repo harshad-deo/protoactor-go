@@ -1,0 +1,83 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+
+proto_library(
+    name = "remote_proto",
+    srcs = ["protos.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//github.com/AsynkronIT/protoactor-go/actor:actor_proto",
+        "//github.com/gogo/protobuf/gogoproto:gogoproto_proto",
+    ],
+)
+
+go_proto_library(
+    name = "remote_go_proto",
+    compilers = ["@io_bazel_rules_go//proto:go_grpc"],
+    importpath = "github.com/AsynkronIT/protoactor-go/remote",
+    proto = ":remote_proto",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//github.com/AsynkronIT/protoactor-go/actor:protos_proto",
+        "//github.com/gogo/protobuf/gogoproto:gogo_proto",
+    ],
+)
+
+go_library(
+    name = "remote",
+    srcs = [
+        "activator_actor.go",
+        "config.go",
+        "doc.go",
+        "endpoint_manager.go",
+        "endpoint_reader.go",
+        "endpoint_watcher.go",
+        "endpoint_writer.go",
+        "endpoint_writer_mailbox.go",
+        "errors.go",
+        "json_serializer.go",
+        "log.go",
+        "messages.go",
+        "proto_serializer.go",
+        "remote_handler.go",
+        "remote_process.go",
+        "response_status_code.go",
+        "serializer.go",
+        "server.go",
+    ],
+    embed = [":remote_go_proto"],
+    importpath = "github.com/AsynkronIT/protoactor-go/remote",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//actor",
+        "//eventstream",
+        "//extensions",
+        "//internal/queue/goring",
+        "//internal/queue/mpsc",
+        "//log",
+        "//mailbox",
+        "@com_github_gogo_protobuf//jsonpb:go_default_library",
+        "@com_github_gogo_protobuf//proto:go_default_library",
+        "@org_golang_google_grpc//:go_default_library",
+        "@org_golang_google_grpc//codes:go_default_library",
+        "@org_golang_google_grpc//grpclog:go_default_library",
+        "@org_golang_google_grpc//status:go_default_library",
+        "@org_golang_x_net//context:go_default_library",
+    ],
+)
+
+go_test(
+    name = "remote_test",
+    srcs = [
+        "response_status_code_test.go",
+        "serializer_test.go",
+        "server_test.go",
+    ],
+    embed = [":remote"],
+    deps = [
+        "//actor",
+        "@com_github_gogo_protobuf//jsonpb:go_default_library",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

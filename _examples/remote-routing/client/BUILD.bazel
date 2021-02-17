@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "client_lib",
+    srcs = [
+        "local.go",
+        "main.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/_examples/remote-routing/client",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//actor",
+        "//mailbox",
+        "//remote",
+        "//router",
+        "@com_github_asynkronit_goconsole//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "client",
+    embed = [":client_lib"],
+    visibility = ["//visibility:public"],
+)

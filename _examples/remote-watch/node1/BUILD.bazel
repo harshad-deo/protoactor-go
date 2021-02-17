@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "node1_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/_examples/remote-watch/node1",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//actor",
+        "//remote",
+        "@com_github_asynkronit_goconsole//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "node1",
+    embed = [":node1_lib"],
+    visibility = ["//visibility:public"],
+)

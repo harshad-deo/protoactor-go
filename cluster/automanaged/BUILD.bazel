@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "automanaged",
+    srcs = [
+        "automanaged.go",
+        "node_model.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/cluster/automanaged",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//cluster",
+        "//log",
+        "@com_github_labstack_echo//:go_default_library",
+        "@org_golang_x_net//context:go_default_library",
+        "@org_golang_x_sync//errgroup:go_default_library",
+    ],
+)
+
+go_test(
+    name = "automanaged_test",
+    srcs = ["automanaged_test.go"],
+    embed = [":automanaged"],
+)

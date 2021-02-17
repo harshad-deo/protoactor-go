@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "persistence",
+    srcs = [
+        "in_memory_provider.go",
+        "messages.go",
+        "persistence_provider.go",
+        "plugin.go",
+        "receiver.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/persistence",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//actor",
+        "@com_github_golang_protobuf//proto:go_default_library",
+    ],
+)
+
+go_test(
+    name = "persistence_test",
+    srcs = ["plugin_test.go"],
+    embed = [":persistence"],
+    deps = [
+        "//actor",
+        "@com_github_stretchr_testify//assert:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "node2_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/_examples/cluster-broadcast/node2",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//actor",
+        "//cluster",
+        "//cluster/automanaged",
+        "//remote",
+        "@com_github_asynkronit_goconsole//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "node2",
+    embed = [":node2_lib"],
+    visibility = ["//visibility:public"],
+)

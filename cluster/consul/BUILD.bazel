@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "consul",
+    srcs = [
+        "consul_provider.go",
+        "options.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/cluster/consul",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//cluster",
+        "//log",
+        "@com_github_hashicorp_consul_api//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "consul_test",
+    srcs = ["consul_provider_test.go"],
+    embed = [":consul"],
+    deps = [
+        "//actor",
+        "//cluster",
+        "//remote",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

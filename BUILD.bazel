@@ -1,6 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
 load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
 buildifier(
     name = "buildifier",
+)
+
+# gazelle:prefix github.com/AsynkronIT/protoactor-go
+gazelle(name = "gazelle")
+
+go_library(
+    name = "protoactor-go",
+    srcs = ["doc.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go",
+    visibility = ["//visibility:public"],
 )

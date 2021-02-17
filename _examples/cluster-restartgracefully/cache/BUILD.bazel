@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "cache",
+    srcs = ["cache.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/_examples/cluster-restartgracefully/cache",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_go_redis_redis//:go_default_library"],
+)

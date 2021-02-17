@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "mailboxstats_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/_examples/mailboxstats",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//actor",
+        "//mailbox",
+        "@com_github_asynkronit_goconsole//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "mailboxstats",
+    embed = [":mailboxstats_lib"],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,41 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "mailbox",
+    srcs = [
+        "bounded.go",
+        "dispatcher.go",
+        "doc.go",
+        "log.go",
+        "mailbox.go",
+        "messages.go",
+        "priority_queue.go",
+        "queue.go",
+        "unbounded.go",
+        "unbounded_lock_free.go",
+        "unbounded_priority.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/mailbox",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//internal/queue/goring",
+        "//internal/queue/mpsc",
+        "//log",
+        "@com_github_workiva_go_datastructures//queue:go_default_library",
+    ],
+)
+
+go_test(
+    name = "mailbox_test",
+    srcs = [
+        "mailbox_test.go",
+        "priority_queue_test.go",
+    ],
+    embed = [":mailbox"],
+    deps = [
+        "//internal/queue/goring",
+        "//internal/queue/mpsc",
+        "@com_github_stretchr_testify//assert:go_default_library",
+        "@com_github_workiva_go_datastructures//queue:go_default_library",
+    ],
+)

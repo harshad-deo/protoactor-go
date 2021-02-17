@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "actor-backpressure_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/_examples/actor-backpressure",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//actor",
+        "//mailbox",
+        "@com_github_asynkronit_goconsole//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "actor-backpressure",
+    embed = [":actor-backpressure_lib"],
+    visibility = ["//visibility:public"],
+)

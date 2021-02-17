@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "protocb",
+    srcs = [
+        "config.go",
+        "envelope.go",
+        "json_transcoder.go",
+        "key.go",
+        "provider.go",
+        "provider_state.go",
+        "writer.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/persistence/protocb",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//actor",
+        "//persistence",
+        "@com_github_couchbase_gocb//:go_default_library",
+        "@com_github_golang_protobuf//proto:go_default_library",
+    ],
+)

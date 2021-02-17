@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "log",
+    srcs = [
+        "caller.go",
+        "encoder.go",
+        "event.go",
+        "field.go",
+        "log.go",
+        "options.go",
+        "stream.go",
+        "string_encoder.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/log",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "log_test",
+    srcs = ["log_test.go"],
+    embed = [":log"],
+    deps = ["@com_github_stretchr_testify//assert:go_default_library"],
+)

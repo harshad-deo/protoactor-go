@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "protozip",
+    srcs = [
+        "inbound_middleware.go",
+        "outbound_middleware.go",
+    ],
+    importpath = "github.com/AsynkronIT/protoactor-go/actor/middleware/protozip",
+    visibility = ["//visibility:public"],
+    deps = ["//actor"],
+)

@@ -1,0 +1,86 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+
+proto_library(
+    name = "cluster_proto",
+    srcs = ["protos.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//github.com/AsynkronIT/protoactor-go/actor:actor_proto",
+        "//github.com/gogo/protobuf/gogoproto:gogoproto_proto",
+    ],
+)
+
+go_proto_library(
+    name = "cluster_go_proto",
+    importpath = "github.com/AsynkronIT/protoactor-go/cluster",
+    proto = ":cluster_proto",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//github.com/AsynkronIT/protoactor-go/actor:protos_proto",
+        "//github.com/gogo/protobuf/gogoproto:gogo_proto",
+    ],
+)
+
+go_library(
+    name = "cluster",
+    srcs = [
+        "cluster.go",
+        "cluster_identity.go",
+        "cluster_provider.go",
+        "config.go",
+        "grain.go",
+        "grain_context.go",
+        "heartbeat_actor.go",
+        "log.go",
+        "member.go",
+        "member_list.go",
+        "member_status.go",
+        "member_status_events.go",
+        "member_strategy.go",
+        "member_strategyv2.go",
+        "partition.go",
+        "partition_identity_actor.go",
+        "partition_kind.go",
+        "partition_lookup.go",
+        "partition_manager.go",
+        "partition_placement_actor.go",
+        "pid_cache.go",
+        "rendezvous.go",
+        "rendezvousv2.go",
+        "round_robin.go",
+    ],
+    embed = [":cluster_go_proto"],
+    importpath = "github.com/AsynkronIT/protoactor-go/cluster",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//actor",
+        "//cluster/chash",
+        "//eventstream",
+        "//extensions",
+        "//log",
+        "//remote",
+        "@com_github_cespare_xxhash//:go_default_library",
+        "@com_github_dgryski_go_rendezvous//:go_default_library",
+        "@com_github_orcaman_concurrent_map//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "cluster_test",
+    srcs = [
+        "cluster_test.go",
+        "member_list_test.go",
+        "partition_identity_actor_test.go",
+        "rendezvous_test.go",
+        "rendezvousv2_test.go",
+    ],
+    embed = [":cluster"],
+    deps = [
+        "//actor",
+        "//log",
+        "//remote",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

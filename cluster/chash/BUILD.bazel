@@ -1,0 +1,8 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "chash",
+    srcs = ["chash.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/cluster/chash",
+    visibility = ["//visibility:public"],
+)

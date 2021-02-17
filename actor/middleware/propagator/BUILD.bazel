@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "propagator",
+    srcs = ["middlewarepropagation.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/actor/middleware/propagator",
+    visibility = ["//visibility:public"],
+    deps = ["//actor"],
+)
+
+go_test(
+    name = "propagator_test",
+    srcs = ["middlewarepropagation_test.go"],
+    embed = [":propagator"],
+    deps = [
+        "//actor",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

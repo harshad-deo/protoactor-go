@@ -1,0 +1,60 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+
+proto_library(
+    name = "router_proto",
+    srcs = ["protos.proto"],
+    visibility = ["//visibility:public"],
+    deps = ["//github.com/AsynkronIT/protoactor-go/actor:actor_proto"],
+)
+
+go_proto_library(
+    name = "router_go_proto",
+    importpath = "github.com/AsynkronIT/protoactor-go/router",
+    proto = ":router_proto",
+    visibility = ["//visibility:public"],
+    deps = ["//github.com/AsynkronIT/protoactor-go/actor:protos_proto"],
+)
+
+go_library(
+    name = "router",
+    srcs = [
+        "broadcast_router.go",
+        "config.go",
+        "consistent_hash_router.go",
+        "messages.go",
+        "process.go",
+        "random_router.go",
+        "roundrobin_router.go",
+        "router.go",
+        "routeractor_group.go",
+        "routeractor_pool.go",
+    ],
+    embed = [":router_go_proto"],
+    importpath = "github.com/AsynkronIT/protoactor-go/router",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//actor",
+        "@com_github_serialx_hashring//:go_default_library",
+    ],
+)
+
+go_test(
+    name = "router_test",
+    srcs = [
+        "broadcast_router_test.go",
+        "common_test.go",
+        "config_test.go",
+        "consistent_hash_router_test.go",
+        "process_test.go",
+        "routeractor_group_test.go",
+        "routeractor_pool_test.go",
+    ],
+    embed = [":router"],
+    deps = [
+        "//actor",
+        "@com_github_stretchr_testify//assert:go_default_library",
+        "@com_github_stretchr_testify//mock:go_default_library",
+    ],
+)

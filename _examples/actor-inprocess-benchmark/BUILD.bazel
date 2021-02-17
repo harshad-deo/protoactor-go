@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "actor-inprocess-benchmark_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/_examples/actor-inprocess-benchmark",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//actor",
+        "//mailbox",
+    ],
+)
+
+go_binary(
+    name = "actor-inprocess-benchmark",
+    embed = [":actor-inprocess-benchmark_lib"],
+    visibility = ["//visibility:public"],
+)

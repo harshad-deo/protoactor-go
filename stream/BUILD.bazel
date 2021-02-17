@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "stream",
+    srcs = ["untyped.go"],
+    importpath = "github.com/AsynkronIT/protoactor-go/stream",
+    visibility = ["//visibility:public"],
+    deps = ["//actor"],
+)
+
+go_test(
+    name = "stream_test",
+    srcs = ["untyped_test.go"],
+    embed = [":stream"],
+    deps = [
+        "//actor",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)
